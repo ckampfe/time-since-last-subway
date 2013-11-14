@@ -1,40 +1,62 @@
 $(document).ready(function() {
+  function Subwaytime() {
+    this.totalSeconds = 0;
+    this.secondsLabel = $("#seconds");
+    this.minutesLabel = $("#minutes");
+    this.hoursLabel   = $("#hours");
+  }
 
-  var hoursLabel = document.getElementById("hours");
-  var minutesLabel = document.getElementById("minutes");
-  var secondsLabel = document.getElementById("seconds");
-  var totalSeconds = 0;
+  Subwaytime.prototype.setTime = function() {
+    ++this.totalSeconds;
+    this.secondsLabel.innerHTML = pad(totalSeconds%60);
+    this.minutesLabel.innerHTML = pad(parseInt(totalSeconds/60%60));
+    this.hoursLabel.innerHTML   = pad(parseInt(totalSeconds/3600));
 
-  setInterval(setTime, 1000);
+    function pad(val) {
+      this.val = val;
+      this.valString = this.val + "";
+      if (this.valString.length < 2) {
+         return "0" + this.valString;
+      } else {
+         return this.valString;
+      }
+    }
+  }
 
-  totalSeconds = 0;
+  //Subwaytime.prototype.pad = function(val) {
+  //  this.val = val;
+  //  this.valString = this.val + "";
+  //  if (this.valString.length < 2) {
+  //     return "0" + this.valString;
+  //  } else {
+  //     return this.valString;
+  //  }
+  //}
 
-     function setTime() {
-        ++totalSeconds;
-        secondsLabel.innerHTML = pad(totalSeconds%60);
-        minutesLabel.innerHTML = pad(parseInt(totalSeconds/60%60));
-        hoursLabel.innerHTML = pad(parseInt(totalSeconds/3600));
-     }
+  Subwaytime.prototype.resetTime = function() {
+    this.totalSeconds = 0;
+  }
 
-     function pad(val) {
-        var valString = val + "";
-        if (valString.length < 2) {
-           return "0" + valString;
-        } else {
-           return valString;
-        }
-     }
+  function Fun() {
+    this.horn = document.getElementsByTagName("audio")[0];
+  }
 
+  Fun.prototype.hornPlay = function() {
+    this.horn.play();
+  }
 
-     var horn = document.getElementsByTagName("audio")[0];
+  Fun.prototype.sandwich = function() {
+    $( "#sandwich" ).show("scale", "percent: 500", 4000, null);
+  }
 
-     $( ".digit").on( "click", function() {
-      resetTime();
-      horn.play();
-      $( "#sandwich" ).show("scale", "percent: 500", 4000, null);
-    });
+  $( ".digit").on( "click", function() {
+    if ( !fun ) {
+      var fun = new Fun();
+    }
+    fun.hornPlay();
+    subTime.resetTime();
+  });
 
-     function resetTime() {
-        totalSeconds = 0;
-     }
+  var subTime = new Subwaytime();
+  setInterval(subTime.setTime, 1000);
 });
