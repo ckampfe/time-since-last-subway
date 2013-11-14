@@ -1,40 +1,52 @@
 $(document).ready(function() {
+  function Subwaytime() {
+    // why does all of this have to be global?
+    totalSeconds = 0;
+    secondsLabel = document.getElementById("seconds");
+    minutesLabel = document.getElementById("minutes");
+    hoursLabel   = document.getElementById("hours");
+  }
 
-  var hoursLabel = document.getElementById("hours");
-  var minutesLabel = document.getElementById("minutes");
-  var secondsLabel = document.getElementById("seconds");
-  var totalSeconds = 0;
+  Subwaytime.prototype.setTime = function() {
+    // and this?
+    this.totalSeconds++;
+    secondsLabel.innerHTML = pad(totalSeconds%60);
+    minutesLabel.innerHTML = pad(parseInt(totalSeconds/60%60));
+    hoursLabel.innerHTML   = pad(parseInt(totalSeconds/3600));
 
-  setInterval(setTime, 1000);
+    function pad(val) {
+      var valString = val + "";
+      if (valString.length < 2) {
+         return "0" + valString;
+      } else {
+         return valString;
+      }
+    }
+  }
 
-  totalSeconds = 0;
+  Subwaytime.prototype.resetTime = function() { totalSeconds = 0; }
 
-     function setTime() {
-        ++totalSeconds;
-        secondsLabel.innerHTML = pad(totalSeconds%60);
-        minutesLabel.innerHTML = pad(parseInt(totalSeconds/60%60));
-        hoursLabel.innerHTML = pad(parseInt(totalSeconds/3600));
-     }
+  function Fun() {}
 
-     function pad(val) {
-        var valString = val + "";
-        if (valString.length < 2) {
-           return "0" + valString;
-        } else {
-           return valString;
-        }
-     }
+  Fun.prototype.hornPlay = function() {
+    document.getElementsByTagName("audio")[0].play();
+  }
 
+  Fun.prototype.sandwich = function() {
+    $( "#sandwich" ).show("scale", "percent: 500", 4000, null);
+  }
 
-     var horn = document.getElementsByTagName("audio")[0];
+  $( ".digit").on( "click", function() {
+    if ( !fun ) {
+      var fun = new Fun();
+    }
+    fun.hornPlay();
+    fun.sandwich();
+    subTime.resetTime();
+  });
 
-     $( ".digit").on( "click", function() {
-      resetTime();
-      horn.play();
-      $( "#sandwich" ).show("scale", "percent: 500", 4000, null);
-    });
+  $( "#sandwich" ).click(function() { $( "#sandwich" ).hide(); });
 
-     function resetTime() {
-        totalSeconds = 0;
-     }
+  var subTime = new Subwaytime();
+  setInterval(subTime.setTime, 1000);
 });
