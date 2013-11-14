@@ -24,26 +24,12 @@ $(document).ready(function() {
     }
   }
 
-  //Subwaytime.prototype.pad = function(val) {
-  //  this.val = val;
-  //  this.valString = this.val + "";
-  //  if (this.valString.length < 2) {
-  //     return "0" + this.valString;
-  //  } else {
-  //     return this.valString;
-  //  }
-  //}
+  Subwaytime.prototype.resetTime = function() { totalSeconds = 0; }
 
-  Subwaytime.prototype.resetTime = function() {
-    this.totalSeconds = 0;
-  }
-
-  function Fun() {
-    this.horn = document.getElementsByTagName("audio")[0];
-  }
+  function Fun() {}
 
   Fun.prototype.hornPlay = function() {
-    this.horn.play();
+    document.getElementsByTagName("audio")[0].play();
   }
 
   Fun.prototype.sandwich = function() {
@@ -55,8 +41,11 @@ $(document).ready(function() {
       var fun = new Fun();
     }
     fun.hornPlay();
+    fun.sandwich();
     subTime.resetTime();
   });
+
+  $( "#sandwich" ).click(function() { $( "#sandwich" ).hide(); });
 
   var subTime = new Subwaytime();
   setInterval(subTime.setTime, 1000);
