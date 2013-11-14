@@ -1,24 +1,25 @@
 $(document).ready(function() {
   function Subwaytime() {
-    this.totalSeconds = 0;
-    this.secondsLabel = $("#seconds");
-    this.minutesLabel = $("#minutes");
-    this.hoursLabel   = $("#hours");
+    // why does all of this have to be global?
+    totalSeconds = 0;
+    secondsLabel = document.getElementById("seconds");
+    minutesLabel = document.getElementById("minutes");
+    hoursLabel   = document.getElementById("hours");
   }
 
   Subwaytime.prototype.setTime = function() {
-    ++this.totalSeconds;
-    this.secondsLabel.innerHTML = pad(totalSeconds%60);
-    this.minutesLabel.innerHTML = pad(parseInt(totalSeconds/60%60));
-    this.hoursLabel.innerHTML   = pad(parseInt(totalSeconds/3600));
+    // and this?
+    this.totalSeconds++;
+    secondsLabel.innerHTML = pad(totalSeconds%60);
+    minutesLabel.innerHTML = pad(parseInt(totalSeconds/60%60));
+    hoursLabel.innerHTML   = pad(parseInt(totalSeconds/3600));
 
     function pad(val) {
-      this.val = val;
-      this.valString = this.val + "";
-      if (this.valString.length < 2) {
-         return "0" + this.valString;
+      var valString = val + "";
+      if (valString.length < 2) {
+         return "0" + valString;
       } else {
-         return this.valString;
+         return valString;
       }
     }
   }
